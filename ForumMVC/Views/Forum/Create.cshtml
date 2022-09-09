@@ -1,0 +1,13 @@
+﻿@model ThreadViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+<h1>Create Thread</h1>
+<form asp-controller="Forum" asp-action="CreateThread" method="post">
+    <div>
+        <textarea asp-for="Body" placeholder="Write your thread" autofocus></textarea>
+    </div>
+    <div>
+        <input type="submit" value="Post" />
+    </div>
+</form>

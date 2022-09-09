@@ -1,0 +1,54 @@
+﻿@model ThreadViewModel
+@{
+    ViewData["Title"] = "Thread";
+    if (Model != null)
+    {
+        <div class="ThreadDiv">
+            <div class="threadBody">
+                <h2>#@Model.Id</h2>
+                <p>@Model.Body</p>
+            </div>
+            <div class="likesDiv">
+                <i>Votes: @Model.Likes, 30 comments</i>
+                <div class="arrowsDiv">
+                    <form asp-controller="Forum" asp-action="PatchLikesThread" asp-route-Id=@Model.Id asp-route-fromThread=true method="post">
+                        <button name="like" value=1 type="submit"><i class="fa-solid fa-angle-up"></i></button>
+                        <button name="like" value=0 type="submit"><i class="fa-solid fa-angle-down"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="commentsDiv">
+            <form asp-controller="Forum" asp-action="CommentThread" asp-route-Id=@Model.Id method="post">
+                <div>
+                    <textarea name="Body" type="text" placeholder="Write your comment" autofocus></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="Comment" />
+                </div>
+            </form>
+            @foreach(var comment in Model.Comments) 
+            {
+                <div class="comment">
+                    <h3>#@comment.Id</h3>
+                    <p>@comment.Body</p>
+                </div>
+                <div class="likesDiv">
+                    <a href="/Forum/Thread?id=@comment.Id">
+                        <i>Votes: @comment.Likes, 10 comments</i>
+                    </a>
+                    <div class="arrowsDiv">
+                        <form asp-controller="Forum" asp-action="PatchLikesComment" asp-route-Id=@comment.Id asp-route-Threadid=@Model.Id asp-route-fromThread=true method="post">
+                            <button name="like" value=1 type="submit"><i class="fa-solid fa-angle-up"></i></button>
+                            <button name="like" value=0 type="submit"><i class="fa-solid fa-angle-down"></i></button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h1>No thread with with id</h1>
+    }
+}
